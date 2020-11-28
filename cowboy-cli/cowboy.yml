@@ -1,0 +1,3 @@
+image: nginx
+replica: 2
+ports: 3000
