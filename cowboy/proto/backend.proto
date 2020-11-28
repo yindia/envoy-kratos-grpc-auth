@@ -1,0 +1,62 @@
+syntax="proto3";
+
+package cowboy;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+// Defines the import path that should be used to import the generated package,
+// and the package name.
+option go_package = "github.com/evalsocket/envoy-kratos-grpc-auth/cowboy/proto;cowboy";
+
+// These annotations are used when generating the OpenAPI file.
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    version: "1.0";
+  };
+  external_docs: {
+    url: "https://github.com/evalsocket/envoy-kratos-grpc-auth/cowboy";
+    description: "Cowboy Server Documentation";
+  }
+  schemes: HTTPS;
+};
+
+service PlatformService {
+  rpc CreateApplication(CreateApplicationRequest) returns (GeneralResponse) {
+    option (google.api.http) = {
+      // Route to this method from POST requests to /api/v1/search/profile
+      post: "/api/v1/create/application"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get  Deployment"
+      description: "Get Deployment from database"
+      tags: "list"
+    };
+  }
+}
+
+message CreateApplicationRequest {
+  string Image = 1;
+  string Region = 2;
+  string Name = 3;
+  string Ports = 4;
+  string Replica = 5;
+}
+
+message GeneralResponse {
+  bool succeed = 1;
+  string context = 2;
+  string message = 3;
+  bytes data = 4;
+  Error error = 5;
+}
+
+message Error {
+  int64 code = 1;
+  string httpCode = 2;
+  string message = 3;
+}
+
+
+
